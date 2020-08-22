@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>anna</title>
+  <link rel="stylesheet" href="terminal.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.6.0/css/OverlayScrollbars.min.css" rel="stylesheet">
+  <link href="./os-theme-thin-dark.css" rel="stylesheet">
+  <link href="./os-theme-thin-light.css" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <div class="window_container" id="terminal_window">
+      <div class="window_top">
+        <div class="window_name">
+          Terminal
+        </div>
+        <div class="dots">
+          <div class="minimize"></div>
+          <div class="close"></div>
+        </div>
+      </div>
+      <div id="terminal">
+        <div id="terminal_lines">
+          <div class="terminal_item" id="welcome"></div>
+          <!-- <div class="terminal_item">
+            <div class="terminal_command"><span class="terminal_directory">~</span> <span class="terminal_command">help</span></div>
+            <div class="terminal_stdout">possible commands: `ls` (aliased with `dir`), `cd`, `cat`</div>
+          </div> -->
+        </div>
+        <div id="terminal_input">
+          <div id="terminal_cur_directory">~</div>
+          <input type="text" id="terminal_stdin">
+          <!-- <div id="terminal_stdin" contenteditable="true"></div> -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.6.0/js/OverlayScrollbars.min.js" charset="utf-8"></script>
+  <!-- <script src="./terminal_data.js" type="module"></script> -->
+  <script src="./terminal.js" type="module"></script>
+  </script>
+</body>
+</html>
