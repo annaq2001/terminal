@@ -11,7 +11,7 @@
 </head>
 <body>
   <main>
-    <div class="window_container" id="terminal_window">
+    <div class="window_container" id="terminal_window" tabindex="0">
       <div class="window_top">
         <div class="window_name">
           Terminal
@@ -30,9 +30,10 @@
           </div> -->
         </div>
         <div id="terminal_input">
-          <div id="terminal_cur_directory">~</div>
-          <input type="text" id="terminal_stdin">
+          <span id="terminal_cur_directory">~</span>
+          <!-- <input type="text" id="terminal_stdin"> -->
           <!-- <div id="terminal_stdin" contenteditable="true"></div> -->
+          <span id="terminal_stdin_text"></span><span id="terminal_stdin_cursor"></span>
         </div>
       </div>
     </div>
