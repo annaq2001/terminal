@@ -160,6 +160,6 @@ span.terminal_directory, div#terminal_cur_directory {
 }
 
 span.terminal_directory::before, div#terminal_cur_directory::before {
-  content: "annaqiu:";
+  content: "bash:";
   color: pink;
 }
