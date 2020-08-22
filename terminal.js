@@ -1,7 +1,11 @@
-import * as data from "./terminal_data.js";
+// import * as data from "./terminal_data.js";
+import * as fns from "./terminal_fns.js";
 
 const tab_width = 4;
+const terminal_prefix = "bash";
 const terminal = document.querySelector("div#terminal_lines");
+
+fns.implemented_commands.push("clear");
 
 const create_elem = (selector, attributes = {}, html = "") => {
   let temp = document.createElement(selector);
@@ -28,6 +32,10 @@ const format_lines = (lines = []) => {
   return line;
 }
 
+const create_prefix = () => {
+  return `<span class="terminal_prefix">${terminal_prefix}:</span>`;
+}
+
 const add_line = (commandline) => {
   // console.log(commandline);
   const item = create_elem("div", {
@@ -40,23 +48,23 @@ const add_line = (commandline) => {
   item.appendChild(command);
   command.appendChild(create_elem("span", {
     class: "terminal_directory"
-  }, data.folder_path.slice(1) == "" ? "~" : data.folder_path.slice(1)));
+  }, create_prefix() + (fns.folder_path.slice(1) == "" ? "~" : fns.folder_path.slice(1))));
   command.innerHTML += " ";
   command.appendChild(create_elem("span", {
     class: "terminal_command"
   }, commandline));
-  // const res = data.exec(commandline);
+  // const res = fns.exec(commandline);
   // console.log(res);
   item.appendChild(create_elem("div", {
     class: "terminal_stdout"
-  }, format_lines(commandline.length > 0 ? data.exec(commandline) : [])));
+  }, format_lines(commandline.length > 0 ? fns.exec(commandline) : [])));
 }
 
 const add_welcome = () => {
   const welcome = document.querySelector("div#welcome");
   welcome.appendChild(create_elem("div", {
     class: "terminal_stdout"
-  }, format_lines(data.exec("welcome"))));
+  }, format_lines(fns.exec("welcome"))));
 }
 add_welcome();
 
@@ -83,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //   else
 //     add_line(terminal_stdin.value);
 //   terminal_stdin.value = "";
-//   terminal_cur_directory.innerHTML = data.folder_path.slice(1) == "" ? "~" : data.folder_path.slice(1);
+//   terminal_cur_directory.innerHTML = fns.folder_path.slice(1) == "" ? "~" : fns.folder_path.slice(1);
 //   // document.querySelector("div#terminal").scrollTo(0, document.querySelector("div#terminal").scrollHeight);
 //   scrollbar.scroll([0, "100%"]);
 // }
@@ -116,8 +124,9 @@ const update_stdin = () => {
 
 const cursor = document.querySelector("span#terminal_stdin_cursor");
 const update_cursor = () => {
-  cursor.innerHTML = "\xa0".repeat(terminal_cur_directory.innerHTML.length + 6 + stdin[0].length);
+  cursor.innerHTML = "\xa0".repeat(Math.max(fns.folder_path.slice(1).length, 1) + terminal_prefix.length + 2 + stdin[0].length);
 }
+terminal_cur_directory.innerHTML = create_prefix() + (fns.folder_path.slice(1) == "" ? "~" : fns.folder_path.slice(1));
 update_cursor();
 
 window.onkeydown = (e) => {
@@ -137,7 +146,7 @@ window.onkeydown = (e) => {
         cur_stdin = null;
         cur_input = -1;
         scrolled = false;
-        terminal_cur_directory.innerHTML = data.folder_path.slice(1) == "" ? "~" : data.folder_path.slice(1);
+        terminal_cur_directory.innerHTML = create_prefix() + (fns.folder_path.slice(1) == "" ? "~" : fns.folder_path.slice(1));
         break;
       
       case "ArrowLeft":
@@ -202,8 +211,15 @@ window.onkeydown = (e) => {
         e.preventDefault();
         // console.log(stdin);
         // console.log(stdin[0].join("").split(" ").slice(-1)[0]);
-        const filled = data.autofill(stdin[0].join("").split(" ").slice(1).join(" "));
-        stdin[0] = (stdin[0].join("").split(" ")[0] + " " + filled).split("");
+        if (stdin[0].join("").match(" ")) {
+          const filled_dir = fns.autofill_dir(stdin[0].join("").split(" ").slice(1).join(" "));
+          stdin[0] = (stdin[0].join("").split(" ")[0] + " " + filled_dir).split("");
+        }
+        else {
+          const filled_command = fns.autofill_command(stdin[0].join(""), fns.implemented_commands);
+          // console.log(filled_command);
+          stdin[0] = filled_command.split("");
+        }
         break;
 
       default:

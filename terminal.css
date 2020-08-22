@@ -3,79 +3,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
 :root {
-  --window-background-color  : #eeeeee;
-  --window-title-color       : #666;
-  --window-font-family       : 'Source Sans Pro', sans-serif;
-  --window-dot-size          : 0.6em;
-  --terminal-font-size       : 14px;
-  --terminal-font-color      : #eee;
+  --window-background-color: #eeeeee;
+  --window-title-color: #666;
+  --window-font-family: 'Source Sans Pro', sans-serif;
+  --window-dot-size: 0.6em;
+  --terminal-font-size: 14px;
+  --terminal-font-color: #eee;
   --terminal-background-color: #1f1f1f;
-  /* --terminal-font-family  : 'Inconsolata', 'Oxygen Mono', monospace; */
-  --terminal-font-family     : 'Inconsolata', monospace;
+  /* --terminal-font-family: 'Inconsolata', 'Oxygen Mono', monospace; */
+  --terminal-font-family: 'Inconsolata', monospace;
 }
 
 * {
-  position  : relative;
+  position: relative;
   box-sizing: border-box;
 }
 
 body {
-  margin     : 0;
-  padding    : 0;
+  margin: 0;
+  padding: 0;
   line-height: 1.35em;
 }
 
 p:first-child {
   margin-top: 0;
 }
-
 p:last-child {
   margin-bottom: 0;
 }
 
 .window_container {
-  overflow             : hidden;
-  border-radius        : 5px;
+  overflow: hidden;
+  border-radius: 5px;
   -webkit-border-radius: 5px;
-  -moz-border-radius   : 5px;
-  -ms-border-radius    : 5px;
-  -o-border-radius     : 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .window_top {
-  width      : 100%;
-  height     : 1.7em;
-  background : var(--window-background-color);
-  color      : var(--window-title-color);
-  text-align : center;
+  width: 100%;
+  height: 1.7em;
+  background: var(--window-background-color);
+  color: var(--window-title-color);
+  text-align: center;
   line-height: 1em;
-  padding    : 0.35em;
+  padding: 0.35em;
   font-family: var(--window-font-family);
 }
 
 .window_name {
-  font-size     : 0.85em;
+  font-size: 0.85em;
   letter-spacing: 1px;
-  font-weight   : bold;
+  font-weight: bold;
 }
 
 .dots {
-  position   : absolute;
-  top        : calc(0.85em - (var(--window-dot-size) / 2));
-  right      : calc(0.85em - (var(--window-dot-size) / 2));
-  height     : var(--window-dot-size);
+  position: absolute;
+  top: calc(0.85em - (var(--window-dot-size) / 2));
+  right: calc(0.85em - (var(--window-dot-size) / 2));
+  height: var(--window-dot-size);
   line-height: var(--window-dot-size);
 }
 
 .dots div {
-  height               : var(--window-dot-size);
-  width                : var(--window-dot-size);
-  display              : inline-block;
-  border-radius        : 100%;
+  height: var(--window-dot-size);
+  width: var(--window-dot-size);
+  display: inline-block;
+  border-radius: 100%;
   -webkit-border-radius: 100%;
-  -moz-border-radius   : 100%;
-  -ms-border-radius    : 100%;
-  -o-border-radius     : 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
 }
 
 .dots div:not(:last-child) {
@@ -91,25 +90,25 @@ p:last-child {
 }
 
 div#terminal_window {
-  height       : 75vh;
-  width        : 75%;
-  max-width    : 750px;
-  top          : 12.5vh;
-  margin       : auto;
+  height    : 75vh;
+  width     : 75%;
+  max-width: 750px;
+  top      : 12.5vh;
+  margin: auto;
   /* box-sizing: border-box; */
 }
 
 div#terminal {
-  height            : calc(75vh - 1.7em);
-  width             : 100%;
-  background        : var(--terminal-background-color);
-  color             : var(--terminal-font-color);
-  /* padding        : 1em; */
-  overflow          : auto;
-  position          : relative;
-  font-family       : var(--terminal-font-family);
-  font-size         : var(--terminal-font-size);
-  border            : 1.35em solid var(--terminal-background-color);
+  height: calc(75vh - 1.7em);
+  width: 100%;
+  background: var(--terminal-background-color);
+  color     : var(--terminal-font-color);
+  /* padding   : 1em; */
+  overflow  : auto;
+  position  : relative;
+  font-family: var(--terminal-font-family);
+  font-size  : var(--terminal-font-size);
+  border: 1.35em solid var(--terminal-background-color);
   border-right-width: 1em;
   padding-right     : 1em;
 }
@@ -131,11 +130,11 @@ div#welcome p:first-child {
 }
 
 input#terminal_stdin {
-  background : #1f1f1f;
-  color      : #eee;
+  background: #1f1f1f;
+  color     : #eee;
   font-family: var(--terminal-font-family);
   font-size  : var(--terminal-font-size);
-  border     : 1px solid;
+  border: 1px solid;
 }
 
 input#terminal_stdin:focus {
@@ -160,47 +159,43 @@ input#terminal_stdin:focus {
 
 .folder {
   font-weight: bold;
-  color      : powderblue;
+  color: powderblue;
 }
 
 .file {
   color: aliceblue;
 }
 
-.file,
-.folder {
+.file, .folder {
   display: inline-block;
 }
 
-span.terminal_directory,
-span#terminal_cur_directory {
+span.terminal_directory, span#terminal_cur_directory {
   font-weight: bold;
-  color      : lightsteelblue;
+  color: lightsteelblue;
 }
 
-span.terminal_directory::before,
-span#terminal_cur_directory::before {
-  content: "bash:";
+span.terminal_prefix {
   color  : pink;
 }
 
 span#terminal_stdin_cursor {
   position: absolute;
-  left    : 0;
+  left: 0;
 }
 
 span#terminal_stdin_cursor::after {
-  content      : "0";
-  color        : transparent;
-  /* border    : 1px solid var(--terminal-font-color); */
+  content    : "0";
+  color      : transparent;
+  /* border: 1px solid var(--terminal-font-color); */
   /* box-sizing: border-box; */
-  /* outline   : 1px solid var(--terminal-font-color); */
-  box-shadow   : inset 0 0 0px 1px #fff;
+  /* outline: 1px solid var(--terminal-font-color); */
+  box-shadow: inset 0 0 0px 1px #fff;
 }
 
 .terminal_focused span#terminal_stdin_cursor::after {
-  background    : var(--terminal-font-color);
+  background : var(--terminal-font-color);
   mix-blend-mode: difference;
-  /* border     : none; */
-  /* outline    : none; */
+  /* border: none; */
+  /* outline: none; */
 }
