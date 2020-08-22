@@ -66,7 +66,7 @@ const terminal_data = {
     // `Last login: ${login_timestamp} from annaqiu.com`,
     `Last login: ${login_timestamp}`,
     "",
-    "Welcome! This mini shell currently serves as the personal website for Anna Qiu. It is made entirely using HTML, CSS, and JavaScript.",
+    "Welcome! This mini shell is made by Anna Qiu and was made entirely using HTML, CSS, and JavaScript.",
     "For more information and to see what commands are supported, type help."
   ],
   "help": [
