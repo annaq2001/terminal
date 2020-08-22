@@ -70,7 +70,7 @@ const terminal_data = {
     "For more information and to see what commands are supported, type help."
   ],
   "help": [
-    "supported commands: `ls` (aliased with `dir`), `tree`, `cd`, `cat`"
+    "supported commands: `ls` (aliased with `dir`), `tree`, `cd`, `cat`, `clear`"
   ]
 }
 
