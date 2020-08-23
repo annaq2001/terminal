@@ -126,11 +126,12 @@ const create_shrub_line = (prefix, name, isFolder) => {
   return `${prefix}${create_dir_elem(name, isFolder)}`;
 }
 
-const folder_to_shrub = (folder, depth, path, isLast) => {
-  const prefix = isLast ? ("    ").repeat(depth - 1) + "├── " : ("│   ").repeat(depth - 1) + "├── ";
+const folder_to_shrub = (folder, depth, path, isLast, fileLines) => {
+  // const prefix = isLast ? (depth == 1 ? ("    ").repeat(depth - 1) + "├── " : "│   " + ("    ").repeat(depth - 2) + "├── ") : ("│   ").repeat(depth - 1) + "├── ";
+  const prefix = ("│   ").repeat(fileLines) + ("    ").repeat(depth - fileLines) + "├── ";
   const lastKey = Object.keys(folder).slice(-1);
   const data = {};
-  data["tree"] = depth == 1 ? [create_dir_elem(path, true)] : [];
+  data["tree"] = depth == 0 ? [create_dir_elem(path, true)] : [];
   data["dir"] = 0;
   data["files"] = 0;
 
@@ -146,7 +147,7 @@ const folder_to_shrub = (folder, depth, path, isLast) => {
       data["tree"].push(create_shrub_line(lastKey == key ? prefix.replace("├── ", "└── ") : prefix, key, is_folder(element)));
       if (is_folder(element)) {
         data["dir"]++;
-        const subdata = folder_to_shrub(element, depth + 1, "", lastKey == key);
+        const subdata = folder_to_shrub(element, depth + 1, "", lastKey == key, lastKey == key ? fileLines : fileLines + 1);
         data["tree"] = data["tree"].concat(subdata["tree"]);
         data["dir"] += subdata["dir"];
         data["files"] += subdata["files"];
@@ -155,6 +156,7 @@ const folder_to_shrub = (folder, depth, path, isLast) => {
         data["files"]++;
       // console.log(tree);
     }
+    // console.log(data["tree"]);
   }
 
   // const last = tree.pop();
@@ -166,11 +168,12 @@ const folder_to_shrub = (folder, depth, path, isLast) => {
 }
 
 const format_tree = (folder, path) => {
-  const data = folder_to_shrub(folder, 1, path, false);
+  const data = folder_to_shrub(folder, 0, path, false, 0);
 
-  const tree = data["tree"];
+  const tree = data["tree"].filter(i => i.trim() != "");
   tree.push(" ");
   tree.push(`${data["dir"]} director${data["dir"] == 1 ? "y" : "ies"}, ${data["files"]} file${data["files"] == 1 ? "" : "s"}`);
+  // console.log(tree);
   return tree;
 }
 
@@ -221,7 +224,7 @@ const exec = (commandline) => {
   // https://stackoverflow.com/questions/49179609/split-string-on-spaces-and-quotes-keeping-quoted-substrings-intact
   const commandline_inputs = commandline.match(/"[^"]*"|'[^']*'|(\\\ |\S)+/g).map(m => m.slice(0, 1) === '"' ? m.slice(1, -1) : m.slice(0, 1) === "'" ? m.slice(1, -1) : m).map(m => m.replace(/\\\ /g, " "));
   // console.log(commandline_inputs);
-  commandline_inputs.forEach(i => {console.log(i)});
+  // commandline_inputs.forEach(i => {console.log(i)});
   const command = commandline_inputs[0];
   const args = commandline_inputs.splice(1).filter(i => i != "");
   
