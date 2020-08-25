@@ -76,7 +76,10 @@ const terminal_data = {
     "For more information and to see what commands are supported, type help."
   ],
   "help": [
-    "supported commands: `ls` (aliased with `dir`), `tree`, `cd`, `cat`, `clear`"
+    "supported commands: `ls` (aliased with `dir`), `tree`, `cd`, `cat`, `clear`, `settings` (to change the terminal colors), `files` (to show a list of all directories and files available, similar to tree)"
+  ],
+  "mobile help": [
+    "supported commands: `ls`, `tree`, `cd`, `cat`, `clear`"
   ]
 }
 
