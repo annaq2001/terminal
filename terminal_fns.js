@@ -1,4 +1,4 @@
-import * as data from "./terminal_data.js"
+import * as data from "./terminal_data.js";
 
 let folder = data.folders;
 let folder_path = ".";
@@ -12,7 +12,7 @@ const get_parent = (folderName, curFolder) => {
     return curFolder;
   if (!is_folder(curFolder))
     return null;
-  
+
   for (const key in curFolder) {
     if (curFolder.hasOwnProperty(key)) {
       const parent = get_parent(folderName, curFolder[key]);
@@ -53,14 +53,14 @@ const get_item = (links, curFolder, curFolderName) => {
 
   if (folder == "..")
     return get_item(links.slice(1), get_parent(curFolderName, data.folders), get_parent_name(curFolderName, data.folders, "."));
-  
+
   // console.log(curFolder.hasOwnProperty(folder));
   if (!curFolder.hasOwnProperty(folder))
     return null;
-  
+
   // if (links.length == 1)
   //   return curFolder[folder];
-  
+
   // console.log(links.slice(1));
   return get_item(links.slice(1), curFolder[folder], folder);
 }
@@ -68,9 +68,10 @@ const get_item = (links, curFolder, curFolderName) => {
 const get_item_from_path = (path) => {
   if (path == ".")
     return folder;
-  
-  const links = path.split("/");
-  // console.log(links);
+
+  // const links = path.split("/");
+  const links = path.match(/\/?[^\/]+\/?/g).map(i => i.replace(/\//g, "")).filter(i => i.trim().length > 0);
+  console.log(links);
   // let curFolder = folder;
   // for (let i = 0; i < links.length; i++) {
   //   if (curFolder.hasOwnProperty(links[i]) && is_folder(curFolder[links[i]]))
@@ -83,7 +84,7 @@ const get_item_from_path = (path) => {
 }
 
 const set_folder_path = (path) => {
-  let links = path.split("/").filter(i => i!="");
+  let links = path.split("/").filter(i => i != "");
   while (links.length > 0) {
     switch (links[0]) {
       case ".":
@@ -113,10 +114,10 @@ const format_directories = (folder) => {
     }
   }
   temp = temp.sort((a, b) => a.localeCompare(b, 'en', {
-      sensitivity: 'base'
-    })).map((key) => {
-      return create_dir_elem(key.split(" ").length > 1 ? `'${key}'` : key, is_folder(folder[key]));
-    });
+    sensitivity: 'base'
+  })).map((key) => {
+    return create_dir_elem(key.split(" ").length > 1 ? `'${key}'` : key, is_folder(folder[key]));
+  });
   // console.log(temp);
   // console.log(temp.join("$$"));
   return temp;
@@ -129,7 +130,7 @@ const create_shrub_line = (prefix, name, isFolder) => {
 const folder_to_shrub = (folder, depth, path, isLast, fileLines) => {
   // const prefix = isLast ? (depth == 1 ? ("    ").repeat(depth - 1) + "├── " : "│   " + ("    ").repeat(depth - 2) + "├── ") : ("│   ").repeat(depth - 1) + "├── ";
   const prefix = ("│   ").repeat(fileLines) + ("    ").repeat(depth - fileLines) + "├── ";
-  const lastKey = Object.keys(folder).slice(-1);
+  // const lastKey = Object.keys(folder).slice(-1);
   const data = {};
   data["tree"] = depth == 0 ? [create_dir_elem(path, true)] : [];
   data["dir"] = 0;
@@ -141,7 +142,7 @@ const folder_to_shrub = (folder, depth, path, isLast, fileLines) => {
     return data;
   }
 
-  for (const key in folder) {
+  /*for (const key in folder) {
     if (folder.hasOwnProperty(key)) {
       const element = folder[key];
       data["tree"].push(create_shrub_line(lastKey == key ? prefix.replace("├── ", "└── ") : prefix, key, is_folder(element)));
@@ -157,7 +158,24 @@ const folder_to_shrub = (folder, depth, path, isLast, fileLines) => {
       // console.log(tree);
     }
     // console.log(data["tree"]);
-  }
+  }*/
+  const keys = Object.keys(folder).sort();
+  const lastKey = keys.slice(-1);
+  keys.forEach(key => {
+    if (folder.hasOwnProperty(key)) {
+      const element = folder[key];
+      data["tree"].push(create_shrub_line(lastKey == key ? prefix.replace("├── ", "└── ") : prefix, key, is_folder(element)));
+      if (is_folder(element)) {
+        data["dir"]++;
+        const subdata = folder_to_shrub(element, depth + 1, "", lastKey == key, lastKey == key ? fileLines : fileLines + 1);
+        data["tree"] = data["tree"].concat(subdata["tree"]);
+        data["dir"] += subdata["dir"];
+        data["files"] += subdata["files"];
+      } else
+        data["files"]++;
+      // console.log(tree);
+    }
+  });
 
   // const last = tree.pop();
   // tree.push(last.replace("├── ", "└── "));
@@ -182,7 +200,7 @@ const common_prefix = (strings) => {
     return null;
   // if (strings.length == 1)
   //   return strings[0];
-  
+
   let prefix = strings[0];
   // console.log(prefix);
   for (let i = 1; i < strings.length; i++) {
@@ -202,13 +220,15 @@ const autofill_dir = (path) => {
 
   if (!is_folder(lookup))
     return path;
-  
+
   const possible = Object.keys(lookup).filter(k => k.startsWith(fill));
   const prefix = common_prefix(possible);
   // console.log(prefix);
   if (prefix)
     links.push(prefix);
-  return prefix ? links.join("/") : path;
+  const item = get_item_from_path(links.join("/"));
+  const suffix = item && is_folder(item) ? "/" : "";
+  return prefix ? links.join("/") + suffix : path;
 }
 
 const autofill_command = (command, possible) => {
@@ -216,6 +236,11 @@ const autofill_command = (command, possible) => {
   // console.log(possible);
   const prefix = common_prefix(possible);
   return prefix ? prefix : command;
+}
+
+const get_dir_items = (path) => {
+  const lookup = get_item_from_path(path ? path : ".");
+  return is_folder(lookup) ? Object.keys(lookup).map(i => is_folder(lookup[i]) ? i + "/" : i) : [];
 }
 
 const exec = (commandline) => {
@@ -227,7 +252,7 @@ const exec = (commandline) => {
   // commandline_inputs.forEach(i => {console.log(i)});
   const command = commandline_inputs[0];
   const args = commandline_inputs.splice(1).filter(i => i != "");
-  
+
   const path = args.length > 0 ? args[0].trim() : ".";
   const lookup = get_item_from_path(path);
 
@@ -244,7 +269,7 @@ const exec = (commandline) => {
         return [format_directories(lookup).join("$$")];
       else
         return [path];
-    
+
     case "cd":
       // const path = args.length > 0 ? args.length[0].trim() : ".";
       // const lookup = get_item_from_path(path);
@@ -262,11 +287,11 @@ const exec = (commandline) => {
         return [`cd: ${path}: no such file or directory`];
       else
         return [`cd: ${path}: not a directory`];
-    
+
     case "cat":
       if (args.length == 0)
         return ["cat: no file input"];
-      
+
       // const path = args[0].trim();
       // const lookup = get_item_from_path(path);
       if (lookup != null && !is_folder(lookup))
@@ -275,13 +300,16 @@ const exec = (commandline) => {
         return [`cat: ${path}: no such file or directory`];
       else
         return [`cat: ${path}: is a directory`];
-  
+
     case "tree":
       return format_tree(lookup, path);
       break;
 
-    case "help": 
+    case "help":
       return data.terminal_data["help"];
+
+    case "mobile_help":
+      return data.terminal_data["mobile help"];
 
     case "welcome":
       return data.terminal_data["welcome"];
@@ -293,4 +321,11 @@ const exec = (commandline) => {
 
 const implemented_commands = ["ls", "dir", "cd", "cat", "tree", "help", "welcome"];
 
-export {folder_path, autofill_dir, autofill_command, exec, implemented_commands};
+export {
+  folder_path,
+  autofill_dir,
+  autofill_command,
+  get_dir_items,
+  exec,
+  implemented_commands
+};

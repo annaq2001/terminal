@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- 
+
+    page by anna q. (aug 21, 2020)
+    feather icons by cole bemis: https://feathericons.com/
+    overlayscrollbars by rene haas: https://kingsora.github.io/OverlayScrollbars/
+    interactjs by taye adeyemi : https://interactjs.io/
+
+   -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>anna</title>
@@ -11,37 +21,113 @@
 </head>
 <body>
   <main>
+    <div id="show_terminal">
+      <button style="display: none" onclick="document.querySelector('#terminal_window').style.display = '';this.style.display = 'none'">open terminal ?</button>
+    </div>
     <div class="window_container" id="terminal_window" tabindex="0">
       <div class="window_top">
         <div class="window_name">
-          Terminal
+          terminal
         </div>
         <div class="dots">
-          <div class="minimize"></div>
-          <div class="close"></div>
+          <div class="minimize" title="maximize" for="terminal_window"></div>
+          <div class="close" title="close" for="terminal_window"></div>
         </div>
       </div>
       <div id="terminal">
         <div id="terminal_lines">
           <div class="terminal_item" id="welcome"></div>
-          <!-- <div class="terminal_item">
-            <div class="terminal_command"><span class="terminal_directory">~</span> <span class="terminal_command">help</span></div>
-            <div class="terminal_stdout">possible commands: `ls` (aliased with `dir`), `cd`, `cat`</div>
-          </div> -->
         </div>
         <div id="terminal_input">
           <span id="terminal_cur_directory">~</span>
           <!-- <input type="text" id="terminal_stdin"> -->
-          <!-- <div id="terminal_stdin" contenteditable="true"></div> -->
           <span id="terminal_stdin_text"></span><span id="terminal_stdin_cursor"></span>
         </div>
       </div>
+      <div id="terminal_buttons">
+        <button class="terminal_command_button" input="ls ">ls</button><button class="terminal_command_button" input="tree ">tree</button><button class="terminal_command_button" input="cd ">cd</button><button class="terminal_command_button" input="cat ">cat</button><button class="terminal_command_button" input="mobile_help">help</button><button class="terminal_command_button" input="clear">clear</button>
+      </div>
+    </div>
+
+    <div class="window_container" id="settings_window" tabindex="1">
+      <div class="window_top">
+        <div class="window_name">
+          settings
+        </div>
+        <div class="dots">
+          <div class="minimize" title="maximize" for="settings"></div>
+          <div class="close" title="close" for="settings_window"></div>
+        </div>
+      </div>
+      <div id="settings">
+        <div class="settings_category" id="settings_colors">
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-background-color">background</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-background-color" value="#1f1f1f"></div>
+          </div>
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-font-color">font color</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-font-color" value="#eeeeee"></div>
+          </div>
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-prefix">bash prefix</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-prefix" value="#ffc0cb"></div>
+          </div>
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-current-directory">directory</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-current-directory" value="#b0c4de"></div>
+          </div>
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-folder-color">folders</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-folder-color" value="#B0E0E6"></div>
+          </div>
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal-file-color">files</label></div>
+            <div class="settings_input"><input type="color" name="settings" id="terminal-file-color" value="#F0F8FF"></div>
+          </div>
+        </div>
+        <div class="settings_category" id="settings_text">
+          <div class="settings_line">
+            <div class="settings_name"><label for="terminal_prefix">bash prefix</label></div>
+            <div class="settings_input"><input type="text" name="settings" id="terminal_prefix" value="annaqiu"></div>
+          </div>
+        </div>
+        <!-- <div class="settings_line">
+          <div class="settings_name"><label for=""></label></div>
+          <div class="settings_input"><input type="color" name="settings" id=""></div>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="window_container" id="files_window" tabindex="2">
+      <div class="window_top">
+        <div class="window_name">
+          files
+        </div>
+        <div class="dots">
+          <div class="minimize" title="maximize" for="files_window"></div>
+          <div class="close" title="close" for="files_window"></div>
+        </div>
+      </div>
+      <div id="files"></div>
     </div>
   </main>
 
+  <div id="bottom_note">
+    <span>made with <i data-feather="heart"></i> by anna</span>
+    <img src="./anna2.JPG" alt="picture of anna">
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.6.0/js/OverlayScrollbars.min.js" charset="utf-8"></script>
-  <!-- <script src="./terminal_data.js" type="module"></script> -->
   <script src="./terminal.js" type="module"></script>
-  </script>
+  <!-- <script type="module">
+    import * as test from "./terminal.js";
+    test.test();
+  </script> -->
+  <!-- <script>alert("test");</script> -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- <script src="./feather.min.js"></script> -->
+  <script>feather.replace();</script>
+  <!-- <script>alert("test");</script> -->
 </body>
 </html>

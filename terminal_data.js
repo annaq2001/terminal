@@ -10,6 +10,12 @@ const folders = {
     "email:   annaq@andrew.cmu.edu"
   ],
   "folder 1": {
+    "folder 1.0": {
+      "file 1.0.1": [],
+      "folder 1.0.2": {
+        "file 1.0.2.1": []
+      }
+    },
     "file 1.1": [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, aperiam.",
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
@@ -26,7 +32,10 @@ const folders = {
     "folder 1.3": {
       "file 1.3.1": [
         "hahaha"
-      ]
+      ],
+      "folder 1.3.2": {
+        "file 1.3.2.1": []
+      }
     }
   },
   "folder 2": {
@@ -63,7 +72,7 @@ const terminal_data = {
     // `Last login: ${login_timestamp} from annaqiu.com`,
     `Last login: ${login_timestamp}`,
     "",
-    "Welcome! This mini shell is made by Anna Qiu and was made entirely using HTML, CSS, and JavaScript.",
+    "Welcome! This mini shell is made entirely using HTML, CSS, and JavaScript.",
     "For more information and to see what commands are supported, type help."
   ],
   "help": [
