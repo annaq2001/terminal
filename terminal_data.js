@@ -7,7 +7,7 @@ const folders = {
   ],
   "contact": [
     "phone:   (###) ###-####",
-    "email:   annaq@andrew.cmu.edu"
+    "email:   hello@example.com"
   ],
   "folder 1": {
     "folder 1.0": {
